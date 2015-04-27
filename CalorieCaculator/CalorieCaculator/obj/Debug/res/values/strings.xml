@@ -1,1 +1,1 @@
-<resources><string name="hello">Hello World, Click Me!</string><string name="app_name">CalorieCaculator</string></resources>
+<resources><string name="hello">Hello World, Click Me!</string><string name="app_name">CalorieCaculator</string><string name="openDrawer">Menu</string><string name="closeDrawer">Calculate Calories</string></resources>

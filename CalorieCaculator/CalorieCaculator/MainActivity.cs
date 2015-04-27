@@ -6,13 +6,27 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.OS;
+using SupportToolbar = Android.Support.V7.Widget.Toolbar;
+using Android.Support.V7.App;
+using Android.Support.V4.Widget;
+using System.Collections.Generic;
 
 namespace CalorieCaculator
 {
-	[Activity (Label = "CalorieCaculator", MainLauncher = true, Icon = "@drawable/icon")]
-	public class MainActivity : Activity
+	[Activity (Label = "CalorieCaculator", MainLauncher = true, Icon = "@drawable/icon", Theme="@style/MyTheme")]
+	public class MainActivity : ActionBarActivity
 	{
-		int count = 1;
+		private SupportToolbar mToolbar;
+		private MyActionBarToggle mDrawerToggle;
+		private DrawerLayout mDrawerLayout;
+		private ListView mLeftDrawer;
+		private ArrayAdapter mLeftAdapter;
+
+		private ListView bFood;
+		private ArrayAdapter bFoodAdapter;
+
+		private List<string> mLeftDataSet;
+		private List<string> test;
 
 		protected override void OnCreate (Bundle bundle)
 		{
@@ -21,13 +35,70 @@ namespace CalorieCaculator
 			// Set our view from the "main" layout resource
 			SetContentView (Resource.Layout.Main);
 
-			// Get our button from the layout resource,
-			// and attach an event to it
-			Button button = FindViewById<Button> (Resource.Id.myButton);
-			
-			button.Click += delegate {
-				button.Text = string.Format ("{0} clicks!", count++);
-			};
+			mToolbar = FindViewById<SupportToolbar> (Resource.Id.toolbar);
+			mDrawerLayout = FindViewById<DrawerLayout> (Resource.Id.drawer_layout);
+			mLeftDrawer = FindViewById<ListView> (Resource.Id.left_drawer);
+			bFood = FindViewById<ListView> (Resource.Id.breakfast_food);
+
+			SetSupportActionBar (mToolbar);
+
+			mLeftDataSet = new List<string> ();
+			mLeftDataSet.Add ("Calculate Calories");
+			mLeftDataSet.Add ("Test");
+			mLeftAdapter = new ArrayAdapter<string> (this, Android.Resource.Layout.SimpleListItem1, mLeftDataSet);
+			mLeftDrawer.Adapter = mLeftAdapter;
+
+			test = new List<string> ();
+			test.Add("Food");
+			test.Add("Food 2");
+			bFoodAdapter = new ArrayAdapter<string> (this, Android.Resource.Layout.SimpleListItem1, test);
+
+			bFood.Adapter = bFoodAdapter;
+			mDrawerToggle = new MyActionBarToggle(
+				this,							// Host Activity
+				mDrawerLayout,					// DrawerLayout
+				Resource.String.openDrawer,		// Opened Message
+				Resource.String.closeDrawer		// Closed Message
+			);
+
+			mDrawerLayout.SetDrawerListener (mDrawerToggle);
+			SupportActionBar.SetHomeButtonEnabled (true);
+			SupportActionBar.SetDisplayShowTitleEnabled (true);
+			mDrawerToggle.SyncState();
+
+			if (bundle != null) {
+				if (bundle.GetString ("DrawerState") == "Opened") {
+					SupportActionBar.SetTitle (Resource.String.openDrawer);
+				} else {
+					SupportActionBar.SetTitle (Resource.String.closeDrawer);
+				}
+
+			} else {
+				//This is the first time the activity is run
+				SupportActionBar.SetTitle (Resource.String.closeDrawer);
+			}
+		}
+
+		public override bool OnOptionsItemSelected (IMenuItem item)
+		{
+			mDrawerToggle.OnOptionsItemSelected (item);
+			return base.OnOptionsItemSelected (item);
+		}
+
+		protected override void OnSaveInstanceState (Bundle outState)
+		{
+			if (mDrawerLayout.IsDrawerOpen ((int)GravityFlags.Left)) {
+				outState.PutString ("DrawerState", "Opened");
+			} else {
+				outState.PutString ("DrawerState", "Closed");
+			}
+			base.OnSaveInstanceState (outState);
+		}
+
+		protected override void OnPostCreate (Bundle savedInstanceState)
+		{
+			base.OnPostCreate (savedInstanceState);
+			mDrawerToggle.SyncState ();
 		}
 	}
 }
