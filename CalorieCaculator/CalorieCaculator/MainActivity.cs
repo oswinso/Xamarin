@@ -25,8 +25,18 @@ namespace CalorieCaculator
 		private ListView bFood;
 		private ArrayAdapter bFoodAdapter;
 
+		private ListView lFood;
+		private ArrayAdapter lFoodAdapter;
+
+		private ListView dFood;
+		private ArrayAdapter dFoodAdapter;
+
 		private List<string> mLeftDataSet;
 		private List<string> test;
+
+		private Button bButton;
+		private Button lButton;
+		private Button dButton;
 
 		protected override void OnCreate (Bundle bundle)
 		{
@@ -38,10 +48,15 @@ namespace CalorieCaculator
 			mToolbar = FindViewById<SupportToolbar> (Resource.Id.toolbar);
 			mDrawerLayout = FindViewById<DrawerLayout> (Resource.Id.drawer_layout);
 			mLeftDrawer = FindViewById<ListView> (Resource.Id.left_drawer);
-			bFood = FindViewById<ListView> (Resource.Id.breakfast_food);
+			bFood = FindViewById<ListView> (Resource.Id.breakfastFood);
+			lFood = FindViewById<ListView> (Resource.Id.lunchFood);
+			dFood = FindViewById<ListView> (Resource.Id.dinnerFood);
+
+			bButton = FindViewById<Button> (Resource.Id.addBreakfast);
+			lButton = FindViewById<Button> (Resource.Id.addLunch);
+			dButton = FindViewById<Button> (Resource.Id.addDinner);
 
 			SetSupportActionBar (mToolbar);
-
 			mLeftDataSet = new List<string> ();
 			mLeftDataSet.Add ("Calculate Calories");
 			mLeftDataSet.Add ("Test");
@@ -52,8 +67,13 @@ namespace CalorieCaculator
 			test.Add("Food");
 			test.Add("Food 2");
 			bFoodAdapter = new ArrayAdapter<string> (this, Android.Resource.Layout.SimpleListItem1, test);
+			lFoodAdapter = new ArrayAdapter<string> (this, Android.Resource.Layout.SimpleListItem1, test);
+			dFoodAdapter = new ArrayAdapter<string> (this, Android.Resource.Layout.SimpleListItem1, test);
 
 			bFood.Adapter = bFoodAdapter;
+			lFood.Adapter = lFoodAdapter;
+			dFood.Adapter = dFoodAdapter;
+
 			mDrawerToggle = new MyActionBarToggle(
 				this,							// Host Activity
 				mDrawerLayout,					// DrawerLayout
@@ -77,6 +97,22 @@ namespace CalorieCaculator
 				//This is the first time the activity is run
 				SupportActionBar.SetTitle (Resource.String.closeDrawer);
 			}
+				
+			CalorieCalculator.Utility.setListViewHeightBasedOnChildren (bFood);
+			CalorieCalculator.Utility.setListViewHeightBasedOnChildren (lFood);
+			CalorieCalculator.Utility.setListViewHeightBasedOnChildren (dFood);
+
+			bButton.Click += delegate {
+				StartActivity (typeof (SearchByActivity));
+			};
+			lButton.Click += delegate {
+				StartActivity (typeof (SearchByActivity));
+			};
+			dButton.Click += delegate {
+				StartActivity (typeof (SearchByActivity));
+			};
+
+
 		}
 
 		public override bool OnOptionsItemSelected (IMenuItem item)
@@ -93,12 +129,6 @@ namespace CalorieCaculator
 				outState.PutString ("DrawerState", "Closed");
 			}
 			base.OnSaveInstanceState (outState);
-		}
-
-		protected override void OnPostCreate (Bundle savedInstanceState)
-		{
-			base.OnPostCreate (savedInstanceState);
-			mDrawerToggle.SyncState ();
 		}
 	}
 }

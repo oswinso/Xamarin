@@ -32,7 +32,7 @@ public class TrialSplashScreen extends Activity {
 			public void run ()
 			{
 				finish ();
-				Intent intent = new Intent (TrialSplashScreen.this, caloriecaculator.MainActivity.class);
+				Intent intent = new Intent (TrialSplashScreen.this, md5f8dbe1d3b9f8d848fa7cf400f13a326a.MainActivity.class);
 				intent.setFlags (Intent.FLAG_ACTIVITY_NEW_TASK);
 				startActivity (intent);
 			}
