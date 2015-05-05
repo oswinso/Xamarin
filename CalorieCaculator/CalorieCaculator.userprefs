@@ -1,11 +1,12 @@
 ﻿<Properties StartupItem="CalorieCaculator/CalorieCaculator.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Android.SelectDevice" />
-  <MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workbench ActiveDocument="CalorieCaculator/SearchByNameActivity.cs">
     <Files>
-      <File FileName="CalorieCaculator/Resources/values/Styles.xml" Line="1" Column="1" />
-      <File FileName="CalorieCaculator/MyActionBarToggle.cs" Line="1" Column="1" />
+      <File FileName="CalorieCaculator/Utility.cs" Line="1" Column="1" />
+      <File FileName="CalorieCaculator/MainActivity.cs" Line="1" Column="1" />
+      <File FileName="CalorieCaculator/SearchByActivity.cs" Line="1" Column="1" />
+      <File FileName="CalorieCaculator/SearchByNameActivity.cs" Line="81" Column="50" />
       <File FileName="CalorieCaculator/Resources/values/Strings.xml" Line="1" Column="1" />
-      <File FileName="CalorieCaculator/MainActivity.cs" Line="109" Column="4" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
